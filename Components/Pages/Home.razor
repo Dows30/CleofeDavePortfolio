@@ -1,0 +1,453 @@
+@page "/"
+@using System.Threading
+@rendermode InteractiveServer
+@implements IDisposable
+
+<PageTitle>Dave L. Cleofe — Junior .NET Software Engineer</PageTitle>
+
+<div class="min-h-screen pb-20 transition-colors duration-300 @(isLightMode ? "bg-white text-zinc-900" : "bg-[#09090b] text-[#f4f4f5]")">
+
+  <!-- TOP HEADER BAR (Centered Telemetry & Theme Switcher) -->
+  <header class="border-b px-4 sm:px-8 py-3 text-xs @(isLightMode ? "border-zinc-200 bg-zinc-50" : "border-zinc-800/80 bg-[#0c0c0f]")">
+    <div class="max-w-4xl mx-auto flex flex-wrap items-center justify-between gap-3 text-xs font-mono">
+      <div class="flex items-center gap-2 text-zinc-400">
+        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span class="font-medium @(isLightMode ? "text-zinc-800" : "text-white")">STATUS: OPEN FOR .NET &amp; SYSTEMS ROLES</span>
+        <span class="text-zinc-600 hidden sm:inline">•</span>
+        <span class="hidden sm:inline text-zinc-400">MANILA: <span class="font-medium @(isLightMode ? "text-zinc-900" : "text-white")">@manilaTimePht</span></span>
+      </div>
+
+      <button @onclick="ToggleTheme" class="px-3 py-1 border rounded text-[11px] font-mono transition-colors cursor-pointer @(isLightMode ? "border-zinc-400 text-zinc-800 hover:bg-zinc-200" : "border-zinc-700 text-zinc-300 hover:border-white hover:text-white")">
+        @(isLightMode ? "[ DARK B&W MODE ]" : "[ LIGHT MODE ]")
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER (Centered Layout) -->
+  <main class="max-w-3xl mx-auto px-4 sm:px-6 pt-12 space-y-16 text-center">
+
+    <!-- HERO SECTION (Centered Photo & Bio) -->
+    <section class="flex flex-col items-center space-y-6">
+      
+      <!-- B&W PROFILE PHOTO CONTAINER -->
+      <div class="relative group cursor-pointer">
+        <div class="w-40 h-40 sm:w-48 sm:h-48 rounded-full overflow-hidden border-2 p-1 transition-all duration-300 shadow-2xl @(isLightMode ? "border-zinc-400 bg-zinc-200" : "border-zinc-700 bg-zinc-900")">
+          <!-- User Profile Photo forced to B&W via CSS Filter -->
+          <img id="user-avatar" 
+               src="profile.png" 
+               onerror="this.onerror=null; this.src='profile.jpg';" 
+               alt="Dave L. Cleofe" 
+               class="w-full h-full object-cover rounded-full filter grayscale contrast-125 transition-transform duration-500 group-hover:scale-105" />
+        </div>
+
+        <!-- Status Badge Pill -->
+        <div class="absolute bottom-1 right-2 px-3 py-1 rounded-full bg-black border border-emerald-500/80 text-emerald-400 font-mono text-[10px] flex items-center gap-1.5 shadow-lg">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span>Online</span>
+        </div>
+      </div>
+
+      <!-- Centered Bio & Name -->
+      <div class="space-y-3 max-w-2xl">
+        <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight @(isLightMode ? "text-black" : "text-white")">
+          Dave L. Cleofe
+        </h1>
+        <p class="text-base sm:text-lg font-semibold text-emerald-500 font-mono">
+          Junior .NET Software Engineer | Systems Analyst &amp; QA
+        </p>
+
+        <p class="text-sm sm:text-base leading-relaxed @(isLightMode ? "text-zinc-700" : "text-zinc-300")">
+          Specializing in enterprise Web APIs, dynamic SQL Server architectures, Business Analysis &amp; Requirements Gathering, Quality Assurance testing, Workflow Automation (<strong class="font-semibold @(isLightMode ? "text-black" : "text-white")">n8n</strong>), and Cross-Platform Applications (<strong class="font-semibold @(isLightMode ? "text-black" : "text-white")">C#, ASP.NET Core/MVC, .NET MAUI, Blazor, WinForms, Unity 3D</strong>).
+        </p>
+
+        <p class="text-xs text-zinc-500 font-mono">
+          STI College Caloocan &bull; BS Information Technology (Batch 2022–2026) &bull; OJT @@ EVOTECH
+        </p>
+      </div>
+
+      <!-- Quick Action Buttons -->
+      <div class="flex flex-wrap items-center justify-center gap-3 pt-2 text-xs font-mono">
+        <a href="mailto:contact.doss30@gmail.com" class="px-5 py-2.5 bg-emerald-500 text-black font-semibold rounded-lg hover:bg-emerald-400 transition shadow flex items-center gap-2">
+          <span>contact.doss30@gmail.com</span>
+        </a>
+        <a href="resume.pdf" download="Dave_L_Cleofe_Resume.pdf" target="_blank" class="px-4 py-2.5 bg-zinc-800 text-white border border-zinc-700 hover:border-emerald-400 hover:text-emerald-400 rounded-lg transition flex items-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          <span>Download Resume PDF</span>
+        </a>
+        <a href="https://github.com/Dows30" target="_blank" class="px-4 py-2.5 border rounded-lg transition flex items-center gap-1.5 @(isLightMode ? "border-zinc-400 text-zinc-800 hover:bg-zinc-100" : "border-zinc-700 text-zinc-300 hover:border-white hover:text-white")">
+          <span>GitHub @@Dows30 ↗</span>
+        </a>
+        <a href="tel:+639938990154" class="px-4 py-2.5 border rounded-lg transition @(isLightMode ? "border-zinc-300 text-zinc-600 hover:bg-zinc-100" : "border-zinc-800 text-zinc-400 hover:border-zinc-600")">
+          +63 993 899 0154
+        </a>
+      </div>
+
+    </section>
+
+    <!-- 01 // FEATURED INTERACTIVE C# BLAZOR TERMINAL CONSOLE -->
+    <section class="border p-5 sm:p-6 rounded-xl space-y-3 font-mono text-xs text-left shadow-2xl transition-all duration-300 @(isLightMode ? "bg-zinc-100 border-zinc-300" : "bg-[#111115] border-[#222228]")">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-zinc-400 pb-2 border-b border-zinc-800">
+        <span class="font-medium text-emerald-400 flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          dave@cleofe-sys:~$ (interactive C# console)
+        </span>
+        <div class="flex flex-wrap gap-1 text-[10px]">
+          <span class="text-zinc-500">Click to run:</span>
+          <button @onclick='() => RunPresetCommand("whoami")' class="px-1.5 py-0.5 rounded bg-zinc-800 hover:bg-emerald-500 hover:text-black text-zinc-300 transition">[whoami]</button>
+          <button @onclick='() => RunPresetCommand("skills")' class="px-1.5 py-0.5 rounded bg-zinc-800 hover:bg-emerald-500 hover:text-black text-zinc-300 transition">[skills]</button>
+          <button @onclick='() => RunPresetCommand("projects")' class="px-1.5 py-0.5 rounded bg-zinc-800 hover:bg-emerald-500 hover:text-black text-zinc-300 transition">[projects]</button>
+          <button @onclick='() => RunPresetCommand("capstone")' class="px-1.5 py-0.5 rounded bg-zinc-800 hover:bg-emerald-500 hover:text-black text-zinc-300 transition">[capstone]</button>
+          <button @onclick='() => RunPresetCommand("ba")' class="px-1.5 py-0.5 rounded bg-zinc-800 hover:bg-emerald-500 hover:text-black text-zinc-300 transition">[ba]</button>
+          <button @onclick='() => RunPresetCommand("qa")' class="px-1.5 py-0.5 rounded bg-zinc-800 hover:bg-emerald-500 hover:text-black text-zinc-300 transition">[qa]</button>
+          <button @onclick='() => RunPresetCommand("n8n")' class="px-1.5 py-0.5 rounded bg-zinc-800 hover:bg-emerald-500 hover:text-black text-zinc-300 transition">[n8n]</button>
+        </div>
+      </div>
+
+      <div class="text-zinc-300 space-y-2 min-h-[70px] max-h-48 overflow-y-auto">
+        <p class="text-zinc-500">// Interactive CLI terminal powered by Blazor Web App &amp; C#. Type a command below.</p>
+        @foreach (var log in historyLogs)
+        {
+            <div>
+                <span class="text-emerald-400">&gt; @log.Command</span>
+                <p class="text-zinc-300 mt-0.5">@log.Response</p>
+            </div>
+        }
+      </div>
+
+      <div class="flex items-center gap-2 pt-2 border-t border-zinc-800">
+        <span class="text-emerald-400 font-bold text-sm">&gt;</span>
+        <input @bind="commandInput" @bind:event="oninput" @onkeyup="HandleKeyUp" 
+               placeholder="type a command (e.g. 'skills' or 'n8n')..." 
+               class="bg-transparent border-none outline-none w-full placeholder-zinc-600 focus:ring-0 @(isLightMode ? "text-black" : "text-white")">
+      </div>
+    </section>
+
+    <!-- 01 // METRICS & STAT BANNER (Centered Grid) -->
+    <section class="space-y-4">
+      <div class="text-xs font-mono text-zinc-500 uppercase tracking-wider">
+        01 // IMPACT &amp; EXPERTISE METRICS
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
+        <div class="border p-4 rounded-xl space-y-1 @(isLightMode ? "bg-zinc-100 border-zinc-300" : "bg-[#111115] border-[#222228]")">
+          <div class="text-xl font-extrabold font-mono @(isLightMode ? "text-black" : "text-white")">EVOTECH</div>
+          <div class="text-[11px] text-zinc-400">Junior .NET, BA &amp; QA</div>
+          <div class="text-[10px] font-mono text-zinc-500">Project-Based 2026</div>
+        </div>
+
+        <div class="border p-4 rounded-xl space-y-1 @(isLightMode ? "bg-zinc-100 border-zinc-300" : "bg-[#111115] border-[#222228]")">
+          <div class="text-xl font-extrabold font-mono @(isLightMode ? "text-black" : "text-white")">RAG + n8n</div>
+          <div class="text-[11px] text-zinc-400">AI &amp; Automation</div>
+          <div class="text-[10px] font-mono text-zinc-500">MAF &amp; Webhook Workflows</div>
+        </div>
+
+        <div class="border p-4 rounded-xl space-y-1 @(isLightMode ? "bg-zinc-100 border-zinc-300" : "bg-[#111115] border-[#222228]")">
+          <div class="text-xl font-extrabold font-mono @(isLightMode ? "text-black" : "text-white")">SQL + CLOUD</div>
+          <div class="text-[11px] text-zinc-400">SQL Server &amp; Supabase</div>
+          <div class="text-[10px] font-mono text-zinc-500">Neon, SQLite &amp; Firebase</div>
+        </div>
+
+        <div class="border p-4 rounded-xl space-y-1 @(isLightMode ? "bg-zinc-100 border-zinc-300" : "bg-[#111115] border-[#222228]")">
+          <div class="text-xl font-extrabold font-mono @(isLightMode ? "text-black" : "text-white")">CAPSTONE</div>
+          <div class="text-[11px] text-zinc-400">Lead Architecture</div>
+          <div class="text-[10px] font-mono text-zinc-500">3D AR App + Web Portal</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 // SYSTEMS ANALYSIS, QA & DEVELOPMENT LIFECYCLE -->
+    <section class="space-y-4">
+      <div class="border-b border-zinc-800 pb-3">
+        <h2 class="text-sm font-bold uppercase tracking-wider font-mono @(isLightMode ? "text-black" : "text-white")">
+          02 // SYSTEMS ANALYSIS, QA &amp; DEVELOPMENT PIPELINE
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs text-left">
+        <div class="border p-4 rounded-xl space-y-2 @(isLightMode ? "bg-zinc-100 border-zinc-300" : "bg-[#111115] border-[#222228]")">
+          <div class="font-mono text-[10px] text-zinc-500">PHASE 01 &bull; BA &amp; ANALYSIS</div>
+          <h3 class="font-bold text-sm @(isLightMode ? "text-black" : "text-white")">Client Pain Points</h3>
+          <p class="text-zinc-400 text-xs">Participated in client meetings to map business workflows, identify pain points, and define module requirements.</p>
+        </div>
+
+        <div class="border p-4 rounded-xl space-y-2 @(isLightMode ? "bg-zinc-100 border-zinc-300" : "bg-[#111115] border-[#222228]")">
+          <div class="font-mono text-[10px] text-zinc-500">PHASE 02 &bull; BACKEND &amp; DB</div>
+          <h3 class="font-bold text-sm @(isLightMode ? "text-black" : "text-white")">.NET &amp; SQL Engineering</h3>
+          <p class="text-zinc-400 text-xs">Authored dynamic SQL stored procedures, indexed views, Web APIs, .NET MAUI &amp; WinForms apps.</p>
+        </div>
+
+        <div class="border p-4 rounded-xl space-y-2 @(isLightMode ? "bg-zinc-100 border-zinc-300" : "bg-[#111115] border-[#222228]")">
+          <div class="font-mono text-[10px] text-zinc-500">PHASE 03 &bull; AI &amp; AUTOMATION</div>
+          <h3 class="font-bold text-sm @(isLightMode ? "text-black" : "text-white")">MAF RAG &amp; n8n</h3>
+          <p class="text-zinc-400 text-xs">Microsoft Agent Framework, OpenAI RAG pipelines, n8n automated API webhooks, Firebase &amp; Supabase.</p>
+        </div>
+
+        <div class="border p-4 rounded-xl space-y-2 @(isLightMode ? "bg-zinc-100 border-zinc-300" : "bg-[#111115] border-[#222228]")">
+          <div class="font-mono text-[10px] text-zinc-500">PHASE 04 &bull; QA &amp; DEPLOYMENT</div>
+          <h3 class="font-bold text-sm @(isLightMode ? "text-black" : "text-white")">QA Testing &amp; IIS/Render</h3>
+          <p class="text-zinc-400 text-xs">API integration testing via Postman, prototype debugging, IIS deployment &amp; Render cloud hosting.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 // ENTERPRISE SYSTEMS & PROJECTS (DETAILED EXPANSION) -->
+    <section class="space-y-6 text-left">
+      <div class="border-b border-zinc-800 pb-3 text-center">
+        <h2 class="text-sm font-bold uppercase tracking-wider font-mono @(isLightMode ? "text-black" : "text-white")">
+          03 // ENTERPRISE SYSTEMS &amp; PROJECTS
+        </h2>
+      </div>
+
+      <div class="space-y-4">
+
+        <!-- System 1 -->
+        <article class="border rounded-2xl p-6 space-y-3 @(isLightMode ? "bg-zinc-100 border-zinc-300" : "bg-[#111115] border-[#222228]")">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-zinc-800/80 pb-3">
+            <div>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-800 text-zinc-200">EVOTECH SOFTWARE SOLUTIONS</span>
+              <h3 class="text-lg font-bold mt-1 @(isLightMode ? "text-black" : "text-white")">Enterprise HRIS AI Assistant, RAG &amp; Business Analysis</h3>
+            </div>
+            <span class="text-xs font-mono text-zinc-400">April 2026 – June 2026</span>
+          </div>
+
+          <p class="text-xs sm:text-sm text-zinc-300 leading-relaxed">
+            Researched and engineered an intelligent AI Assistant for a Philippine-based HRIS platform to streamline employee querying, document workflows, and process automation.
+          </p>
+
+          <ul class="text-xs text-zinc-400 space-y-1.5 pl-4 list-disc leading-relaxed">
+            <li><strong class="@(isLightMode ? "text-black" : "text-white")">Business Analysis &amp; Client Requirements:</strong> Participated directly in enterprise client meetings to lead requirement gathering, process mapping, identify automation pain points, and select optimal tech stacks.</li>
+            <li><strong class="@(isLightMode ? "text-black" : "text-white")">AI &amp; Agentic Engineering:</strong> Developed AI-powered chatbot capabilities utilizing <strong class="@(isLightMode ? "text-black" : "text-white")">Microsoft Agent Framework (MAF)</strong>, OpenAI APIs, ASP.NET Core, and Entity Framework Core.</li>
+            <li><strong class="@(isLightMode ? "text-black" : "text-white")">RAG &amp; NL-to-Query Pipelines:</strong> Implemented backend routines for RAG-style database retrieval, automated file analysis, and Natural Language to SQL query transformations.</li>
+            <li><strong class="@(isLightMode ? "text-black" : "text-white")">Quality Assurance &amp; Debugging:</strong> Collaborated directly with cross-functional development teams on system debugging, prototype testing, and iterative AI performance tuning.</li>
+          </ul>
+
+          <div class="flex flex-wrap gap-1.5 pt-2 font-mono text-[11px]">
+            <span class="px-2.5 py-1 rounded bg-zinc-900 border border-zinc-800 text-zinc-300">C#</span>
+            <span class="px-2.5 py-1 rounded bg-zinc-900 border border-zinc-800 text-zinc-300">ASP.NET Core</span>
+            <span class="px-2.5 py-1 rounded bg-zinc-900 border border-zinc-800 text-zinc-300">MS Agent Framework (MAF)</span>
+            <span class="px-2.5 py-1 rounded bg-zinc-900 border border-zinc-800 text-zinc-300">OpenAI RAG</span>
+            <span class="px-2.5 py-1 rounded bg-zinc-900 border border-zinc-800 text-zinc-300">Business Analysis</span>
+            <span class="px-2.5 py-1 rounded bg-zinc-900 border border-zinc-800 text-zinc-300">QA Testing</span>
+          </div>
+        </article>
+
+        <!-- System 2 -->
+        <article class="border rounded-2xl p-6 space-y-3 @(isLightMode ? "bg-zinc-100 border-zinc-300" : "bg-[#111115] border-[#222228]")">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-zinc-800/80 pb-3">
+            <div>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-800 text-zinc-200">EVOTECH OJT DEVELOPER TRAINEE</span>
+              <h3 class="text-lg font-bold mt-1 @(isLightMode ? "text-black" : "text-white")">Core HRMS Modules, Workflow Engine &amp; QA API Testing</h3>
+            </div>
+            <span class="text-xs font-mono text-zinc-400">Feb 2026 – April 2026</span>
+          </div>
+
+          <p class="text-xs sm:text-sm text-zinc-300 leading-relaxed">
+            Engineered core Human Resource Management System (HRMS) modules using ASP.NET Web API, .NET MAUI, SQL Server, and SQLite.
+          </p>
+
+          <ul class="text-xs text-zinc-400 space-y-1.5 pl-4 list-disc leading-relaxed">
+            <li><strong class="@(isLightMode ? "text-black" : "text-white")">Database Architecture:</strong> Authored dynamic stored procedures and indexed views to validate business logic, normalize enterprise data schemas (3NF), and optimize query performance.</li>
+            <li><strong class="@(isLightMode ? "text-black" : "text-white")">Workflow Engine:</strong> Developed real-time approval workflows for Leave, Official Business (OB), and Overtime (OT) requests with dynamic validations.</li>
+            <li><strong class="@(isLightMode ? "text-black" : "text-white")">Third-Party Integrations:</strong> Integrated Google Maps API for geofencing/location tracking, medical certificate upload pipelines, and automated HTML email notifications.</li>
+            <li><strong class="@(isLightMode ? "text-black" : "text-white")">Quality Assurance &amp; IIS Deployment:</strong> Deployed backend endpoints to local IIS environments and conducted thorough API integration testing using Postman.</li>
+          </ul>
+
+          <div class="flex flex-wrap gap-1.5 pt-2 font-mono text-[11px]">
+            <span class="px-2.5 py-1 rounded bg-zinc-900 border border-zinc-800 text-zinc-300">ASP.NET Web API</span>
+            <span class="px-2.5 py-1 rounded bg-zinc-900 border border-zinc-800 text-zinc-300">MS SQL Server</span>
+            <span class="px-2.5 py-1 rounded bg-zinc-900 border border-zinc-800 text-zinc-300">Stored Procedures</span>
+            <span class="px-2.5 py-1 rounded bg-zinc-900 border border-zinc-800 text-zinc-300">.NET MAUI</span>
+            <span class="px-2.5 py-1 rounded bg-zinc-900 border border-zinc-800 text-zinc-300">IIS</span>
+            <span class="px-2.5 py-1 rounded bg-zinc-900 border border-zinc-800 text-zinc-300">Postman QA</span>
+          </div>
+        </article>
+
+        <!-- System 3 -->
+        <article class="border rounded-2xl p-6 space-y-3 @(isLightMode ? "bg-zinc-100 border-zinc-300" : "bg-[#111115] border-[#222228]")">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-zinc-800/80 pb-3">
+            <div>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-800 text-zinc-200">STI CAPSTONE PROJECT</span>
+              <h3 class="text-lg font-bold mt-1 @(isLightMode ? "text-black" : "text-white")">I AM: AR Human Anatomy Mobile App &amp; Teacher Web Portal</h3>
+            </div>
+            <span class="text-xs font-mono text-zinc-400">Lead Systems Architect</span>
+          </div>
+
+          <p class="text-xs sm:text-sm text-zinc-300 leading-relaxed">
+            Led full project architecture, development, and deployment for an interactive Augmented Reality (AR) mobile application and teacher management portal from requirement gathering to final release.
+          </p>
+
+          <ul class="text-xs text-zinc-400 space-y-1.5 pl-4 list-disc leading-relaxed">
+            <li><strong class="@(isLightMode ? "text-black" : "text-white")">AR Environment &amp; 3D Modeling:</strong> Developed an immersive AR environment using Unity and C# that overlays interactive 3D anatomical models onto real-world views.</li>
+            <li><strong class="@(isLightMode ? "text-black" : "text-white")">Layer Exploration System:</strong> Designed a layer-based anatomy exploration system enabling users to isolate skeletal, muscular, and circulatory systems.</li>
+            <li><strong class="@(isLightMode ? "text-black" : "text-white")">Firebase Backend:</strong> Integrated Firebase backend services for real-time data synchronization, user authentication, and performance tracking.</li>
+            <li><strong class="@(isLightMode ? "text-black" : "text-white")">Teacher Management Portal:</strong> Developed a teacher web portal for classroom management, quiz assignment, and student progress monitoring.</li>
+            <li><strong class="@(isLightMode ? "text-black" : "text-white")">Team Leadership &amp; Optimization:</strong> Collaborated with team members in system design, feature planning, testing, and application optimization.</li>
+          </ul>
+
+          <div class="flex flex-wrap gap-1.5 pt-2 font-mono text-[11px]">
+            <span class="px-2.5 py-1 rounded bg-zinc-900 border border-zinc-800 text-zinc-300">Unity 3D</span>
+            <span class="px-2.5 py-1 rounded bg-zinc-900 border border-zinc-800 text-zinc-300">C#</span>
+            <span class="px-2.5 py-1 rounded bg-zinc-900 border border-zinc-800 text-zinc-300">Augmented Reality (AR)</span>
+            <span class="px-2.5 py-1 rounded bg-zinc-900 border border-zinc-800 text-zinc-300">Firebase Auth &amp; DB</span>
+            <span class="px-2.5 py-1 rounded bg-zinc-900 border border-zinc-800 text-zinc-300">Web Portal</span>
+          </div>
+        </article>
+
+        <!-- System 4 -->
+        <article class="border rounded-2xl p-6 space-y-3 @(isLightMode ? "bg-zinc-100 border-zinc-300" : "bg-[#111115] border-[#222228]")">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-zinc-800/80 pb-3">
+            <div>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-800 text-zinc-200">AUTOMATION &amp; MODERN CLOUD LAB</span>
+              <h3 class="text-lg font-bold mt-1 @(isLightMode ? "text-black" : "text-white")">n8n Workflow Automation, Supabase &amp; Neon DB Integration</h3>
+            </div>
+            <span class="text-xs font-mono text-zinc-400">Active R&amp;D Lab</span>
+          </div>
+
+          <p class="text-xs sm:text-sm text-zinc-300 leading-relaxed">
+            Exploring modern cloud databases, serverless architectures, and low-code AI workflow automation tools to speed up API integrations and process automation.
+          </p>
+
+          <ul class="text-xs text-zinc-400 space-y-1.5 pl-4 list-disc leading-relaxed">
+            <li><strong class="@(isLightMode ? "text-black" : "text-white")">n8n Automation:</strong> Building automated workflow pipelines connecting Web APIs, webhook triggers, AI agents, and database mutations.</li>
+            <li><strong class="@(isLightMode ? "text-black" : "text-white")">Cloud Databases:</strong> Hands-on experience configuring <strong class="@(isLightMode ? "text-black" : "text-white")">Supabase</strong> (PostgreSQL + Realtime), <strong class="@(isLightMode ? "text-black" : "text-white")">Neon DB</strong> (Serverless PostgreSQL), and <strong class="@(isLightMode ? "text-black" : "text-white")">Render</strong> for cloud API hosting.</li>
+          </ul>
+
+          <div class="flex flex-wrap gap-1.5 pt-2 font-mono text-[11px]">
+            <span class="px-2.5 py-1 rounded bg-zinc-900 border border-zinc-800 text-zinc-300">n8n Automation</span>
+            <span class="px-2.5 py-1 rounded bg-zinc-900 border border-zinc-800 text-zinc-300">Supabase</span>
+            <span class="px-2.5 py-1 rounded bg-zinc-900 border border-zinc-800 text-zinc-300">Neon DB</span>
+            <span class="px-2.5 py-1 rounded bg-zinc-900 border border-zinc-800 text-zinc-300">Render</span>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- 04 // TECHNICAL TOOLCHAIN (EXPANDED CATEGORIES) -->
+    <section class="space-y-4">
+      <div class="border-b border-zinc-800 pb-3">
+        <h2 class="text-sm font-bold uppercase tracking-wider font-mono @(isLightMode ? "text-black" : "text-white")">
+          04 // TECHNICAL TOOLCHAIN &amp; SKILLS
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs text-left">
+        <div class="border p-5 rounded-xl space-y-2 @(isLightMode ? "bg-zinc-100 border-zinc-300" : "bg-[#111115] border-[#222228]")">
+          <h3 class="font-bold text-sm @(isLightMode ? "text-black" : "text-white")">Languages &amp; Frameworks</h3>
+          <p class="text-zinc-400 leading-relaxed">
+            C#, MS SQL, ASP.NET Web API, ASP.NET Core / MVC, .NET MAUI, Blazor, WinForms, Entity Framework Core, Microsoft Agent Framework (MAF), Unity 3D.
+          </p>
+        </div>
+
+        <div class="border p-5 rounded-xl space-y-2 @(isLightMode ? "bg-zinc-100 border-zinc-300" : "bg-[#111115] border-[#222228]")">
+          <h3 class="font-bold text-sm @(isLightMode ? "text-black" : "text-white")">Databases &amp; Cloud</h3>
+          <p class="text-zinc-400 leading-relaxed">
+            SQL Server, SQLite, Supabase (PostgreSQL), Neon DB (Serverless SQL), Firebase, Stored Procedures, 3NF Normalization, Indexed Views.
+          </p>
+        </div>
+
+        <div class="border p-5 rounded-xl space-y-2 @(isLightMode ? "bg-zinc-100 border-zinc-300" : "bg-[#111115] border-[#222228]")">
+          <h3 class="font-bold text-sm @(isLightMode ? "text-black" : "text-white")">Tools, QA &amp; Automation</h3>
+          <p class="text-zinc-400 leading-relaxed">
+            n8n Automation, Postman (API Integration &amp; QA Testing), Render, IIS Hosting, Git, Swagger, Google Maps API, Business Analysis.
+          </p>
+        </div>
+      </div>
+    </section>
+
+
+
+    <!-- FOOTER -->
+    <footer class="pt-8 border-t border-zinc-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-500">
+      <div>
+        <p class="font-medium @(isLightMode ? "text-black" : "text-white")">© 2026 Dave L. Cleofe</p>
+        <p class="text-[11px] text-zinc-500 mt-0.5">Junior .NET Software Engineer &bull; .NET 9 Blazor Portfolio</p>
+      </div>
+      <div class="flex items-center gap-4 text-zinc-400 font-medium">
+        <a href="mailto:contact.doss30@gmail.com" class="hover:text-emerald-400 transition">contact.doss30@gmail.com</a>
+        <span>•</span>
+        <a href="https://github.com/Dows30" target="_blank" class="hover:text-emerald-400 transition">GitHub @@Dows30</a>
+      </div>
+    </footer>
+
+  </main>
+
+</div>
+
+@code {
+    private bool isLightMode = false;
+    private string manilaTimePht = "";
+    private System.Threading.Timer? clockTimer;
+    private string commandInput = "";
+    private List<(string Command, string Response)> historyLogs = new();
+
+    protected override void OnInitialized()
+    {
+        UpdateManilaTime();
+        clockTimer = new System.Threading.Timer(_ =>
+        {
+            UpdateManilaTime();
+            InvokeAsync(StateHasChanged);
+        }, null, 1000, 1000);
+    }
+
+    private void UpdateManilaTime()
+    {
+        var manilaTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Singapore Standard Time"); // UTC+8 Manila
+        var now = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, manilaTimeZone);
+        manilaTimePht = now.ToString("HH:mm:ss") + " PHT";
+    }
+
+    private void ToggleTheme()
+    {
+        isLightMode = !isLightMode;
+    }
+
+    private void RunPresetCommand(string cmd)
+    {
+        var response = GetCommandResponse(cmd);
+        historyLogs.Add((cmd, response));
+    }
+
+    private void HandleKeyUp(Microsoft.AspNetCore.Components.Web.KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter" && !string.IsNullOrWhiteSpace(commandInput))
+        {
+            var cmd = commandInput.Trim().ToLower();
+            var response = GetCommandResponse(cmd);
+            historyLogs.Add((commandInput, response));
+            commandInput = "";
+        }
+    }
+
+    private string GetCommandResponse(string cmd)
+    {
+        return cmd switch
+        {
+            "help" => "Available commands: whoami, skills, projects, capstone, ba, qa, n8n, contact, clear",
+            "whoami" => "Dave L. Cleofe — Junior .NET Software Engineer | Systems Analyst & QA (STI College Caloocan).",
+            "skills" => "C#, MS SQL Server, ASP.NET Core MVC, ASP.NET Web API, .NET MAUI, Blazor, WinForms, MAF, n8n, Supabase, Neon DB.",
+            "projects" => "EVOTECH: 1. Enterprise HRIS AI Assistant (MAF, OpenAI RAG). 2. Core HRMS Web API & SQL Stored Procedures. 3. n8n Automation Lab.",
+            "capstone" => "I AM: AR Human Anatomy Mobile App — Lead Architect for Unity 3D, C#, Firebase, and Teacher Web Portal.",
+            "ba" => "Business Analysis: Led requirement gathering, identified client pain points, process mapping, and module architecture at EVOTECH.",
+            "qa" => "Quality Assurance: API integration testing via Postman, prototype testing, system debugging, and performance optimization.",
+            "n8n" => "n8n Automation: Building automated workflow pipelines connecting Web APIs, webhooks, AI agents, and database mutations.",
+            "contact" => "Email: contact.doss30@gmail.com | Phone: +63 993 899 0154 | GitHub: github.com/Dows30",
+            "clear" => ClearHistory(),
+            _ => $"command not found: {cmd}. Type 'help' for available commands."
+        };
+    }
+
+    private string ClearHistory()
+    {
+        historyLogs.Clear();
+        return "Terminal output cleared.";
+    }
+
+    public void Dispose()
+    {
+        clockTimer?.Dispose();
+    }
+}
+
+
